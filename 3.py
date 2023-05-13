@@ -48,6 +48,7 @@ if upload_file is not None:
 # Navigation options
 if options == 'Home':
     home(upload_file)
+    st.table(df)
 elif options == 'Data Summary':
     data_summary()
 elif options == 'Data Header':
