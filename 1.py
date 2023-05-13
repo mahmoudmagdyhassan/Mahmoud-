@@ -12,7 +12,7 @@ import streamlit as st
 import pandas as pd
 
 # Plotly imports
-from plotly.subplots import make_subplots
+
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
 import plotly.express as px
