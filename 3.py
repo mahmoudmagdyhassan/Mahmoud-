@@ -1,86 +1,158 @@
-import streamlit as st
+import altair as alt
 import pandas as pd
+import streamlit as st
+from vega_datasets import data
+
+st.set_page_config(
+    page_title="Time series annotations", page_icon="⬇", layout="centered"
+)
 
 
-from sklearn import datasets
-from sklearn.ensemble import RandomForestRegressor
+@st.experimental_memo
+def get_data():
+    source = data.stocks()
+    source = source[source.date.gt("2004-01-01")]
+    return source
 
-st.write("""
-# Boston House Price Prediction App
 
-This app predicts the **Boston House Price**!
-""")
-st.write('---')
+@st.experimental_memo(ttl=60 * 60 * 24)
+def get_chart(data):
+    hover = alt.selection_single(
+        fields=["date"],
+        nearest=True,
+        on="mouseover",
+        empty="none",
+    )
 
-# Loads the Boston House Price Dataset
-boston = datasets.load_boston()
-X = pd.DataFrame(boston.data, columns=boston.feature_names)
-Y = pd.DataFrame(boston.target, columns=["MEDV"])
+    lines = (
+        alt.Chart(data, height=500, title="Evolution of stock prices")
+        .mark_line()
+        .encode(
+            x=alt.X("date", title="Date"),
+            y=alt.Y("price", title="Price"),
+            color="symbol",
+        )
+    )
 
-# Sidebar
-# Header of Specify Input Parameters
-st.sidebar.header('Specify Input Parameters')
+    # Draw points on the line, and highlight based on selection
+    points = lines.transform_filter(hover).mark_circle(size=65)
 
-def user_input_features():
-    CRIM = st.sidebar.slider('CRIM', X.CRIM.min(), X.CRIM.max(), X.CRIM.mean())
-    ZN = st.sidebar.slider('ZN', X.ZN.min(), X.ZN.max(), X.ZN.mean())
-    INDUS = st.sidebar.slider('INDUS', X.INDUS.min(), X.INDUS.max(), X.INDUS.mean())
-    CHAS = st.sidebar.slider('CHAS', X.CHAS.min(), X.CHAS.max(), X.CHAS.mean())
-    NOX = st.sidebar.slider('NOX', X.NOX.min(), X.NOX.max(), X.NOX.mean())
-    RM = st.sidebar.slider('RM', X.RM.min(), X.RM.max(), X.RM.mean())
-    AGE = st.sidebar.slider('AGE', X.AGE.min(), X.AGE.max(), X.AGE.mean())
-    DIS = st.sidebar.slider('DIS', X.DIS.min(), X.DIS.max(), X.DIS.mean())
-    RAD = st.sidebar.slider('RAD', X.RAD.min(), X.RAD.max(), X.RAD.mean())
-    TAX = st.sidebar.slider('TAX', X.TAX.min(), X.TAX.max(), X.TAX.mean())
-    PTRATIO = st.sidebar.slider('PTRATIO', X.PTRATIO.min(), X.PTRATIO.max(), X.PTRATIO.mean())
-    B = st.sidebar.slider('B', X.B.min(), X.B.max(), X.B.mean())
-    LSTAT = st.sidebar.slider('LSTAT', X.LSTAT.min(), X.LSTAT.max(), X.LSTAT.mean())
-    data = {'CRIM': CRIM,
-            'ZN': ZN,
-            'INDUS': INDUS,
-            'CHAS': CHAS,
-            'NOX': NOX,
-            'RM': RM,
-            'AGE': AGE,
-            'DIS': DIS,
-            'RAD': RAD,
-            'TAX': TAX,
-            'PTRATIO': PTRATIO,
-            'B': B,
-            'LSTAT': LSTAT}
-    features = pd.DataFrame(data, index=[0])
-    return features
+    # Draw a rule at the location of the selection
+    tooltips = (
+        alt.Chart(data)
+        .mark_rule()
+        .encode(
+            x="yearmonthdate(date)",
+            y="price",
+            opacity=alt.condition(hover, alt.value(0.3), alt.value(0)),
+            tooltip=[
+                alt.Tooltip("date", title="Date"),
+                alt.Tooltip("price", title="Price (USD)"),
+            ],
+        )
+        .add_selection(hover)
+    )
 
-df = user_input_features()
+    return (lines + points + tooltips).interactive()
 
-# Main Panel
 
-# Print specified input parameters
-st.header('Specified Input parameters')
-st.write(df)
-st.write('---')
+st.title("⬇ Time series annotations")
 
-# Build Regression Model
-model = RandomForestRegressor()
-model.fit(X, Y)
-# Apply Model to Make Prediction
-prediction = model.predict(df)
+st.write("Give more context to your time series using annotations!")
 
-st.header('Prediction of MEDV')
-st.write(prediction)
-st.write('---')
+col1, col2, col3 = st.columns(3)
+with col1:
+    ticker = st.text_input("Choose a ticker (⬇💬👇ℹ️ ...)", value="⬇")
+with col2:
+    ticker_dx = st.slider(
+        "Horizontal offset", min_value=-30, max_value=30, step=1, value=0
+    )
+with col3:
+    ticker_dy = st.slider(
+        "Vertical offset", min_value=-30, max_value=30, step=1, value=-10
+    )
 
-# Explaining the model's predictions using SHAP values
-# https://github.com/slundberg/shap
-explainer = shap.TreeExplainer(model)
-shap_values = explainer.shap_values(X)
+# Original time series chart. Omitted `get_chart` for clarity
+source = get_data()
+chart = get_chart(source)
 
-st.header('Feature Importance')
-plt.title('Feature importance based on SHAP values')
-shap.summary_plot(shap_values, X)
-st.pyplot(bbox_inches='tight')
-st.write('---')
+# Input annotations
+ANNOTATIONS = [
+    ("Mar 01, 2008", "Pretty good day for GOOG"),
+    ("Dec 01, 2007", "Something's going wrong for GOOG & AAPL"),
+    ("Nov 01, 2008", "Market starts again thanks to..."),
+    ("Dec 01, 2009", "Small crash for GOOG after..."),
+]
 
-plt.title('Feature importance based on SHAP values (Bar)')
-shap.summary_plot(shap_values, X, plot_type="bar")
-st.pyplot(bbox_inches='tight')
+# Create a chart with annotations
+annotations_df = pd.DataFrame(ANNOTATIONS, columns=["date", "event"])
+annotations_df.date = pd.to_datetime(annotations_df.date)
+annotations_df["y"] = 0
+annotation_layer = (
+    alt.Chart(annotations_df)
+    .mark_text(size=15, text=ticker, dx=ticker_dx, dy=ticker_dy, align="center")
+    .encode(
+        x="date:T",
+        y=alt.Y("y:Q"),
+        tooltip=["event"],
+    )
+    .interactive()
+)
+
+# Display both charts together
+st.altair_chart((chart + annotation_layer).interactive(), use_container_width=True)
+
+st.write("## Code")
+
+st.write(
+    "See more in our public [GitHub"
+    " repository](https://github.com/streamlit/example-app-time-series-annotation)"
+)
+
+st.code(
+    f"""
+import altair as alt
+import pandas as pd
+import streamlit as st
+from vega_datasets import data
+
+@st.experimental_memo
+def get_data():
+    source = data.stocks()
+    source = source[source.date.gt("2004-01-01")]
+    return source
+
+source = get_data()
+
+# Original time series chart. Omitted `get_chart` for clarity
+chart = get_chart(source)
+
+# Input annotations
+ANNOTATIONS = [
+    ("Mar 01, 2008", "Pretty good day for GOOG"),
+    ("Dec 01, 2007", "Something's going wrong for GOOG & AAPL"),
+    ("Nov 01, 2008", "Market starts again thanks to..."),
+    ("Dec 01, 2009", "Small crash for GOOG after..."),
+]
+
+# Create a chart with annotations
+annotations_df = pd.DataFrame(ANNOTATIONS, columns=["date", "event"])
+annotations_df.date = pd.to_datetime(annotations_df.date)
+annotations_df["y"] = 0
+annotation_layer = (
+    alt.Chart(annotations_df)
+    .mark_text(size=15, text="{ticker}", dx={ticker_dx}, dy={ticker_dy}, align="center")
+    .encode(
+        x="date:T",
+        y=alt.Y("y:Q"),
+        tooltip=["event"],
+    )
+    .interactive()
+)
+
+# Display both charts together
+st.altair_chart((chart + annotation_layer).interactive(), use_container_width=True)
+
+""",
+    "python",
+)
