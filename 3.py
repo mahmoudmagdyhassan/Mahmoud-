@@ -53,5 +53,5 @@ elif options == 'Data Summary':
 elif options == 'Data Header':
     data_header()
 elif options == 'Scatter Plot':
-    st.line_chart(df, x=df[0], y=df[1], width=0, height=0, use_container_width=True)
+    st.line_chart(df, x=df[0], y=df[1])
     
