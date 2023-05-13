@@ -53,4 +53,4 @@ elif options == 'Data Summary':
 elif options == 'Data Header':
     data_header()
 elif options == 'Scatter Plot':
-    displayplot()
+    st.line_chart(df.iloc[0])
