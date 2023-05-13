@@ -13,9 +13,7 @@ import pandas as pd
 
 # Plotly imports
 
-import plotly.graph_objects as go
-import plotly.figure_factory as ff
-import plotly.express as px
+
 
 
 def plot(las_file, well_data):
