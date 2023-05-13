@@ -55,5 +55,10 @@ elif options == 'Data Summary':
 elif options == 'Data Header':
     data_header()
 elif options == 'Scatter Plot':
-    st.bar_chart(df)
+    chart.animate(df,
+   Config({
+            'x': 'R&D Spend	',
+            'y': 'Administration',
+            'title': 'The Population of the World 1950-2100'}))
+    
     
