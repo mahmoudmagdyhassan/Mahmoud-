@@ -49,10 +49,11 @@ if upload_file is not None:
 if options == 'Home':
     home(upload_file)
     st.table(df)
+   
 elif options == 'Data Summary':
     data_summary()
 elif options == 'Data Header':
     data_header()
 elif options == 'Scatter Plot':
-    st.line_chart(x="R&D Spend" , y ="Administration")
+    st.bar_chart(df)
     
