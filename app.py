@@ -13,3 +13,5 @@ raw_data = {
 df = pd.DataFrame(raw_data, columns=["First Name", "Last Name", "Age"])
 
 st.dataframe(df)
+st.table(df)
+st.altair_chart(df)
