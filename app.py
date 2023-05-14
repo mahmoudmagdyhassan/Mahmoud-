@@ -14,4 +14,4 @@ df = pd.DataFrame(raw_data, columns=["First Name", "Last Name", "Age"])
 
 st.dataframe(df)
 st.table(df)
-st.altair_chart(df["Age"])
+st.progress(df)
