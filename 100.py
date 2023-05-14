@@ -7,19 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1WnmlM0QYinJ40UF2C8RSeobOqVWQaFO8
 """
 
-pip install numpy==1.20.1
-
-pip install streamlit==0.76.0
-
-pip install seaborn==3.4.1
-
-pip install matplotlib==3.4.1
-
-pip install plotly ==4.14.3
-
-pip install pandas ==1.2.3
-
-pip install joblib==0.16.0
 
 import numpy as np
 import pandas as pd
