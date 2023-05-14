@@ -12,8 +12,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import datetime
-import plotly.graph_objects as go
-from scipy import integrate
+
+
 
 data = pd.read_csv("/content/50_Startups.csv")
 data.head
