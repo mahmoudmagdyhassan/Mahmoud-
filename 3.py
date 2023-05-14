@@ -3,10 +3,6 @@ import pandas as pd
 
 
 
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report
 
 
 st.set_page_config(layout="wide")
