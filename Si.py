@@ -31,3 +31,30 @@ st.date_input('Date input')
 st.time_input('Time input')
 st.file_uploader('File uploader')
 st.color_picker('Color Picker')
+PASSWORD = config('PASSWORD')
+
+session_state = SessionState.get(username='', password='')
+
+if (session_state.password == PASSWORD):
+
+    your_function()
+
+elif ( session_state.password != PASSWORD):
+
+    password_placeholder = st.empty()
+
+    password = password_placeholder.text_input("Enter Password:", type="password")
+
+    session_state.password = password
+
+    if (password and session_state.password == PASSWORD):
+
+        password_placeholder.empty()
+
+        st.success("Logged in successfully")
+
+        your_function()
+
+    elif(password and session_state.password != PASSWORD):
+
+        st.error("Wrong password")
