@@ -12,6 +12,4 @@ raw_data = {
 }
 df = pd.DataFrame(raw_data, columns=["First Name", "Last Name", "Age"])
 
-rows = selectable_data_table(df)
-if rows:
-    st.write("You have selected", rows)
+st.dataframe(df)
