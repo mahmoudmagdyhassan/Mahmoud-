@@ -1,34 +1,7 @@
 import streamlit as st
-import pandas as pd
 
-# Add a title and intro text
-st.title('Earthquake Data Explorer')
-st.text('This is a web app to allow exploration of Earthquake Data')
+st.metric(label="Gas price", value=4, delta=-0.5,
+    delta_color="inverse")
 
-# Create file uploader object
-upload_file = st.file_uploader('Upload a file containing earthquake data')
-
-# Check to see if a file has been uploaded
-if upload_file is not None:
-    # If it has then do the following:
-
-    # Read the file to a dataframe using pandas
-    df = pd.read_csv(upload_file)
-
-    # Create a section for the dataframe statistics
-    st.header('Statistics of Dataframe')
-    st.write(df.describe())
-
-    # Create a section for the dataframe header
-    st.header('Header of Dataframe')
-    st.write(df.head())
-
-    # Create a section for matplotlib figure
-    st.header('Plot of Data')
-    
-    
-    chart_data = pd.DataFrame(
-    np.random.randn(20, 3),
-    columns=['a', 'b', 'c'])
-
-st.area_chart(chart_data)
+st.metric(label="Active developers", value=123, delta=123,
+    delta_color="off")
