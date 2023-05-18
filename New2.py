@@ -1,6 +1,17 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+# page1.py
+
+import foo
+
+foo.hello = 123
+
+# page2.py
+
+import foo
+
+st.write(foo.hello)  # If page1 already executed, this should write 123
 
 st.title('Uber pickups in NYC')
 
