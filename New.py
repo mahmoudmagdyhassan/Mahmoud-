@@ -1,4 +1,4 @@
-@st.cache_data
+
 def show_data():
     st.header("Data analysis")
     data = api.get(...)
