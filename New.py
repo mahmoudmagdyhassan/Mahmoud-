@@ -1,9 +1,14 @@
+
 import streamlit as st
-def show_data():
-    st.header("Data analysis")
-    data = api.get(...)
-    st.success("Fetched data from API!")
-    st.write("Here is a plot of the data:")
-    st.line_chart(data)
-    st.write("And here is the raw data:")
-    st.dataframe(data)
+
+with st.form("my_form"):
+   st.write("Inside the form")
+   slider_val = st.slider("Form slider")
+   checkbox_val = st.checkbox("Form checkbox")
+
+   # Every form must have a submit button.
+   submitted = st.form_submit_button("Submit")
+   if submitted:
+       st.write("slider", slider_val, "checkbox", checkbox_val)
+
+st.write("Outside the form")
