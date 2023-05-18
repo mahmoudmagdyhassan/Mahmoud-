@@ -25,6 +25,13 @@ my_table.add_rows(df2)
 # df1 followed by the data for df2.
 
 
+from transformers import pipeline
+
+@st.cache_resource
+def load_model():
+    model = pipeline("sentiment-analysis")
+    st.success("Loaded NLP model from Hugging Face!")  # 👈 Show a success message
+    return model
 
 
 
