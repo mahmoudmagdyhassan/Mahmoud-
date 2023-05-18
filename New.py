@@ -1,4 +1,4 @@
-
+import streamlit as st
 def show_data():
     st.header("Data analysis")
     data = api.get(...)
