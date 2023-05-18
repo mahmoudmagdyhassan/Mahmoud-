@@ -25,13 +25,20 @@ my_table.add_rows(df2)
 # df1 followed by the data for df2.
 
 
-from transformers import pipeline
+import streamlit as st
 
-@st.cache_resource
-def load_model():
-    model = pipeline("sentiment-analysis")
-    st.success("Loaded NLP model from Hugging Face!")  # 👈 Show a success message
-    return model
+
+def square(x):
+    return x**2
+
+@st.experimental_memo
+def cube(x):
+    return x**3
+
+if st.button("Clear All"):
+    # Clear values from *all* memoized functions:
+    # i.e. clear values from both square and cube
+    st.experimental_memo.clear()
 
 
 
