@@ -2,14 +2,33 @@ import streamlit as st
 
 import pandas as pd
 
-dataframe = pd.DataFrame({
+import numpy as np
 
-    'first column': [1, 2, 3, 4],
+df1 = pd.DataFrame(
 
-    'second column': [10, 20, 30, 40],
+   np.random.randn(50, 20),
 
-})
+   columns=('col %d' % i for i in range(20)))
 
-st.experimental_show(dataframe)
+my_table = st.table(df1)
+
+df2 = pd.DataFrame(
+
+   np.random.randn(50, 20),
+
+   columns=('col %d' % i for i in range(20)))
+
+my_table.add_rows(df2)
+
+# Now the table shown in the Streamlit app contains the data for
+
+# df1 followed by the data for df2.
+
+
+
+
+
+
+
 
 
