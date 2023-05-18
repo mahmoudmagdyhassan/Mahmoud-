@@ -1,4 +1,4 @@
-import scikit_learn
+import sklearn
 
 
 
