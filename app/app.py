@@ -4,23 +4,12 @@ import numpy as np
 import pickle
 import requests
 import os
+import joblib
+ 
+model= joblib.load("poly (1).pkl")
+preprocessor=joblib.load("preprocessor (1).pkl")
 
-# File paths
-preprocessor_path = 'https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/preprocessor%20(1).pkl'
-model_path = 'https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/poly%20(1).pkl'
 
-# Check file existence
-for path in [preprocessor_path, model_path]:
-    if not os.path.exists(path):
-        st.error(f"File {path} not found. Please check the file path.")
-
-# Load Preprocessor
-with open(preprocessor_path, 'rb') as file:
-    preprocessor = pickle.load(file)
-
-# Load Model
-with open(model_path, 'rb') as file:
-    model = pickle.load(file)
 
 
 
