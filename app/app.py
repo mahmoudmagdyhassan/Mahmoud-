@@ -3,8 +3,33 @@ import pandas as pd
 import numpy as np
 import pickle
 
-# Load Preprocessor
-preprocessor = pickle.load(open('https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/preprocessor%20(1).pkl', 'rb'))
+import requests
+import pickle
+
+# URL to the pickle file on GitHub
+pickle_url = 'https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/preprocessor%20(1).pkl'
+
+# Download the pickle file
+response = requests.get(pickle_url)
+
+# Check if the request was successful
+if response.status_code == 200:
+    # Save the downloaded content to a local file
+    with open('preprocessor.pkl', 'wb') as f:
+        f.write(response.content)
+
+    # Load the pickle file
+    preprocessor = pickle.load(open('preprocessor.pkl', 'rb'))
+else:
+    # Handle the case where the file couldn't be downloaded
+    print(f"Failed to download the file. Status code: {response.status_code}")
+
+
+
+
+
+
+
 model = pickle.load(open('https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/poly%20(1).pkl', 'rb'))
 
 # Input Data
