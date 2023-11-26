@@ -6,32 +6,9 @@ import pickle
 
 import requests
 
-def download_and_load_pickle(url, filename):
-    response = requests.get(url)
-    if response.status_code == 200:
-        with open(filename, 'wb') as f:
-            f.write(response.content)
-        return pickle.load(open(filename, 'rb'))
-    else:
-        st.error(f"Failed to download {filename}. Status code: {response.status_code}")
-        return None
-
-# URLs for pickle files
-preprocessor_url = 'https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/preprocessor%20(1).pkl'
-model_url = 'https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/poly%20(1).pkl'
-
-# Download and load pickle files
-preprocessor = download_and_load_pickle(preprocessor_url, 'preprocessor.pkl')
-model = download_and_load_pickle(model_url, 'poly.pkl')
-
-# Check if both preprocessor and model are successfully loaded
-if preprocessor is not None and model is not None:
-    st.success("Pickle files successfully loaded!")
-
-    # Now you can use 'preprocessor' and 'model' in your Streamlit app
-    # ...
-
-# Continue with the rest of your Streamlit app logic
+# Load Preprocessor
+preprocessor = pickle.load(open('preprocessor (1).pkl', 'rb'))
+model = pickle.load(open('poly (1).pkl', 'rb'))
 
 
 
