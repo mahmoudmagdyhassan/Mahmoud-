@@ -1,3 +1,5 @@
+!pip install pandas  # Add this line
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -16,11 +18,6 @@ model = pickle.loads(model_content)
 preprocessor = pickle.loads(preprocessor_content)
 
 # Rest of your Streamlit app code...
-
-
-# Rest of your Streamlit app code...
-
-
 
 # Input Data
 location = st.selectbox('Location', ['Mumbai', 'Pune', 'Chennai', 'Coimbatore', 'Hyderabad', 'Jaipur', 'Kochi', 'Kolkata', 'Delhi', 'Bangalore', 'Ahmedabad'])
@@ -42,10 +39,9 @@ new_data = pd.DataFrame(new_data, index=[0])
 new_data.Owner_Type = new_data.Owner_Type.map({'First':1, 'Second':2, 'Third':3, 'Fourth & Above':4})
 new_data_preprocessed = preprocessor.transform(new_data)
 
-
 # Prediction
-log_price = model.predict(new_data_preprocessed) # in log scale
-price = np.exp(log_price) # in original scale
+log_price = model.predict(new_data_preprocessed)  # in log scale
+price = np.exp(log_price)  # in original scale
 
 # From Lakhs to USD
 price_usd = price[0] * 1219
@@ -54,4 +50,3 @@ price_usd = price[0] * 1219
 if st.button('Predict'):
     st.header('Predicted Price')
     st.write('Price in USD:', price_usd)
-
