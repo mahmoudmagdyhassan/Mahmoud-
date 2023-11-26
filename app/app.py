@@ -5,9 +5,14 @@ import pickle
 import requests
 import joblib
 
+model_path = "https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/poly%20(1).pkl"
+preprocessor_path = "https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/preprocessor%20(1).pkl"
 
-model= joblib.load("poly(1).pkl")
-preprocessor=joblib.load("preprocessor(1).pkl")
+model = joblib.load(model_path)
+preprocessor = joblib.load(preprocessor_path)
+
+# Rest of your Streamlit app code...
+
 
 
 # Input Data
