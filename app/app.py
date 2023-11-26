@@ -7,9 +7,11 @@ import pickle
 import requests
 
 # Load Preprocessor
-preprocessor = pickle.load(open('preprocessor (1).pkl', 'rb'))
-model = pickle.load(open('poly (1).pkl', 'rb'))
+with open('preprocessor (1).pkl', 'rb') as file:
+    preprocessor = pickle.load(file)
 
+with open('poly (1).pkl', 'rb') as file:
+    model = pickle.load(file)
 
 
 
