@@ -4,8 +4,8 @@ import numpy as np
 import pickle
 
 # Load Preprocessor
-preprocessor = pickle.load(open('preprocessor.pkl', 'rb'))
-model = pickle.load(open('poly.pkl', 'rb'))
+preprocessor = pickle.load(open('https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/preprocessor%20(1).pkl', 'rb'))
+model = pickle.load(open('https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/poly%20(1).pkl', 'rb'))
 
 # Input Data
 location = st.selectbox('Location', ['Mumbai', 'Pune', 'Chennai', 'Coimbatore', 'Hyderabad', 'Jaipur', 'Kochi', 'Kolkata', 'Delhi', 'Bangalore', 'Ahmedabad'])
