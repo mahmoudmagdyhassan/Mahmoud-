@@ -5,11 +5,18 @@ import pickle
 import requests
 import joblib
 
-model_path = "https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/poly%20(1).pkl"
-preprocessor_path = "https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/preprocessor%20(1).pkl"
+model_url = "https://github.com/mahmoudmagdyhassan/Mahmoud-/raw/main/app/poly%20(1).pkl"
+preprocessor_url = "https://github.com/mahmoudmagdyhassan/Mahmoud-/raw/main/app/preprocessor%20(1).pkl"
 
-model = joblib.load(model_path)
-preprocessor = joblib.load(preprocessor_path)
+# Download and load models
+model_content = requests.get(model_url).content
+preprocessor_content = requests.get(preprocessor_url).content
+
+model = pickle.loads(model_content)
+preprocessor = pickle.loads(preprocessor_content)
+
+# Rest of your Streamlit app code...
+
 
 # Rest of your Streamlit app code...
 
