@@ -3,34 +3,42 @@ import pandas as pd
 import numpy as np
 import pickle
 
+
 import requests
-import pickle
 
-# URL to the pickle file on GitHub
-pickle_url = 'https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/preprocessor%20(1).pkl'
+def download_and_load_pickle(url, filename):
+    response = requests.get(url)
+    if response.status_code == 200:
+        with open(filename, 'wb') as f:
+            f.write(response.content)
+        return pickle.load(open(filename, 'rb'))
+    else:
+        st.error(f"Failed to download {filename}. Status code: {response.status_code}")
+        return None
 
-# Download the pickle file
-response = requests.get(pickle_url)
+# URLs for pickle files
+preprocessor_url = 'https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/preprocessor%20(1).pkl'
+model_url = 'https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/poly%20(1).pkl'
 
-# Check if the request was successful
-if response.status_code == 200:
-    # Save the downloaded content to a local file
-    with open('preprocessor.pkl', 'wb') as f:
-        f.write(response.content)
+# Download and load pickle files
+preprocessor = download_and_load_pickle(preprocessor_url, 'preprocessor.pkl')
+model = download_and_load_pickle(model_url, 'poly.pkl')
 
-    # Load the pickle file
-    preprocessor = pickle.load(open('preprocessor.pkl', 'rb'))
-else:
-    # Handle the case where the file couldn't be downloaded
-    print(f"Failed to download the file. Status code: {response.status_code}")
+# Check if both preprocessor and model are successfully loaded
+if preprocessor is not None and model is not None:
+    st.success("Pickle files successfully loaded!")
 
+    # Now you can use 'preprocessor' and 'model' in your Streamlit app
+    # ...
 
-
-
+# Continue with the rest of your Streamlit app logic
 
 
 
-model = pickle.load(open('https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/poly%20(1).pkl', 'rb'))
+
+
+
+
 
 # Input Data
 location = st.selectbox('Location', ['Mumbai', 'Pune', 'Chennai', 'Coimbatore', 'Hyderabad', 'Jaipur', 'Kochi', 'Kolkata', 'Delhi', 'Bangalore', 'Ahmedabad'])
