@@ -3,50 +3,11 @@ import pandas as pd
 import numpy as np
 import pickle
 import requests
-import streamlit as st
-import pandas as pd
-import numpy as np
-import requests
-import os
 import joblib
 
-def download_file(url, filename):
-    response = requests.get(url)
-    if response.status_code == 200:
-        with open(filename, 'wb') as f:
-            f.write(response.content)
-    else:
-        st.error(f"Failed to download {filename}. Status code: {response.status_code}")
 
-# URLs for models
-preprocessor_url = 'https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/preprocessor%20(1).pkl'
-model_url = 'https://github.com/mahmoudmagdyhassan/Mahmoud-/blob/main/app/poly%20(1).pkl'
-
-# File paths
-preprocessor_path = 'preprocessor (1).pkl'
-model_path = 'poly (1).pkl'
-
-# Download files
-download_file(preprocessor_url, preprocessor_path)
-download_file(model_url, model_path)
-
-# Load models
-preprocessor = joblib.load(preprocessor_path)
-model = joblib.load(model_path)
-
-# Check if both preprocessor and model are successfully loaded
-if preprocessor is not None and model is not None:
-    st.success("Models successfully loaded!")
-
-    # Rest of your Streamlit app code...
-
-
-
-
-
-
-
-
+model= joblib.load("poly (1).pkl")
+preprocessor=joblib.load("preprocessor (1).pkl")
 
 
 # Input Data
