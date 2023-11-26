@@ -6,8 +6,8 @@ import requests
 import joblib
 
 
-model= joblib.load("poly (1).pkl")
-preprocessor=joblib.load("preprocessor (1).pkl")
+model= joblib.load("poly(1).pkl")
+preprocessor=joblib.load("preprocessor(1).pkl")
 
 
 # Input Data
