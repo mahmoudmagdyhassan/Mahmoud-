@@ -1,4 +1,3 @@
-!pip install pandas  # Add this line
 
 import streamlit as st
 import pandas as pd
